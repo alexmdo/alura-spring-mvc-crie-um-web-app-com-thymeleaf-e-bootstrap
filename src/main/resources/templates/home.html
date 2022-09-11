@@ -7,10 +7,10 @@
     <div th:replace="~{base :: titulo('Meus pedidos')}"></div>
     <nav class="navbar navbar-expand bg-light d-flex justify-content-between rounded-3 mb-3">
         <div class="navbar-nav">
-            <a class="nav-link active" href="">Todos</a>
-            <a class="nav-link" href="">Aguardando</a>
-            <a class="nav-link" href="">Aprovado</a>
-            <a class="nav-link" href="">Entregue</a>
+            <a th:classappend="${status} == null ? 'active' : ''" class="nav-link" href="/home">Todos</a>
+            <a th:classappend="${status} == 'in_approve' ? 'active' : ''"  class="nav-link" href="/home/in_approve">Aguardando</a>
+            <a th:classappend="${status} == 'approved' ? 'active' : ''"  class="nav-link" href="/home/approved">Aprovado</a>
+            <a th:classappend="${status} == 'delivered' ? 'active' : ''"  class="nav-link" href="/home/delivered">Entregue</a>
         </div>
         <a href="/order/form">
             <button class="btn btn-secondary me-2">Novo</button>
@@ -18,14 +18,18 @@
     </nav>
     <div th:each="order : ${orders}">
         <div class="card mb-3">
-            <div class="card-header" th:text="${order.productName}">Nome do produto</div>
+            <th:block th:switch="${order.status.name()}">
+                <div th:case="'IN_APPROVE'" class="card-header alert alert-warning" th:text="${order.productName}">Nome do produto</div>
+                <div th:case="'APPROVED'" class="card-header alert alert-success" th:text="${order.productName}">Nome do produto</div>
+                <div th:case="'DELIVERED'" class="card-header alert alert-dark" th:text="${order.productName}">Nome do produto</div>
+            </th:block>
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 col-sm-8 mb-3">
                         <div class="row">
-                            <div class="col-md-5">Valor: <span th:text="${order.amountNegotiated}">200,99</span></div>
+                            <div class="col-md-5">Valor: <span th:if="${order.amountNegotiated != null}" th:text="${'R$ ' + #numbers.formatDecimal(order.amountNegotiated,3,'POINT',2,'COMMA')}">200,99</span></div>
                             <div class="col-md-7">Data da entrega: <span
-                                    th:text="${order.deliveryDate}">10/02/2020</span></div>
+                                    th:text="${#temporals.format(order.deliveryDate, 'dd/MM/yyyy')}">10/02/2020</span></div>
                         </div>
 
                         <div>Produto</div>

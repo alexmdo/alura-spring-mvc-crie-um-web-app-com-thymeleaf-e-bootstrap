@@ -1,6 +1,7 @@
 package br.com.alura.mudi.controller.form;
 
 import br.com.alura.mudi.model.Order;
+import br.com.alura.mudi.model.OrderStatus;
 
 import javax.validation.constraints.NotBlank;
 
@@ -38,6 +39,6 @@ public class NewOrderForm {
     }
 
     public Order convert() {
-        return new Order(this.productName, null, null, this.productUrl, this.imageUrl, this.description);
+        return new Order(this.productName, null, null, this.productUrl, this.imageUrl, this.description, OrderStatus.IN_APPROVE);
     }
 }
