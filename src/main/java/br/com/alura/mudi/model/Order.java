@@ -1,16 +1,27 @@
 package br.com.alura.mudi.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "orders")
 public class Order {
 
-    private final String productName;
-    private final BigDecimal amountNegotiated;
-    private final LocalDate deliveryDate;
-    private final String productUrl;
-    private final String imageUrl;
-    private final String description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String productName;
+    private BigDecimal amountNegotiated;
+    private LocalDate deliveryDate;
+    @Column(length = 4000)
+    private String productUrl;
+    private String imageUrl;
+    private String description;
+
+    public Order() {
+    }
 
     public Order(String productName, BigDecimal amountNegotiated, LocalDate deliveryDate, String productUrl, String imageUrl, String description) {
         this.productName = productName;

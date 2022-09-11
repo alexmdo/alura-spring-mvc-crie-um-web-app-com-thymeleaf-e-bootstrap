@@ -1,0 +1,21 @@
+version: '3.7'
+
+#para roder os services abaixo
+#docker-compose up -d
+
+#para terminar os services abaixo
+#docker-compose down
+
+services:
+
+  #spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: mudi
+      MARIADB_USER: root
+      MARIADB_PASSWORD: root
+    ports:
+      - 3306:3306
